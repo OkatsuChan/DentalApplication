@@ -1,0 +1,422 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="flex flex-col h-full">
+    <header class="flex items-center justify-end mb-8">
+        <div class="flex items-center space-x-4">
+            <div class="w-10 h-10 rounded-full bg-blue-400 flex items-center justify-center">
+                <i class="fas fa-user-md text-xl text-white"></i>
+            </div>
+            <div>
+                <p class="font-semibold text-gray-800">Dr. Marites Gaspar</p>
+                <p class="text-sm text-gray-500">basagaspardental@gmail.com</p>
+            </div>
+        </div>
+    </header>
+
+    <h2 class="text-3xl font-bold text-gray-800 mb-2">Patient Records</h2>
+    <p class="text-gray-500 mb-8">Search and manage patient information</p>
+
+    <div class="bg-white p-6 rounded-2xl shadow-md mb-8">
+        <h3 class="text-xl font-semibold text-gray-700 mb-4">Find Patient</h3>
+        <div class="flex flex-col md:flex-row gap-4">
+            <input type="text" id="search-input"
+                   placeholder="Search by Patient Name"
+                   class="flex-grow p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500" />
+            <button class="bg-purple-600 text-white py-3 px-6 rounded-xl font-semibold hover:bg-purple-700 transition duration-200 ease-in-out shadow-md" onclick="performSearch()">
+                <svg class="w-5 h-5 inline-block mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                </svg>
+                Search
+            </button>
+            <button id="create-record-btn" class="bg-green-500 text-white py-3 px-6 rounded-xl font-semibold hover:bg-green-600 transition duration-200 ease-in-out shadow-md">
+                <i class="fas fa-plus-circle inline-block mr-2"></i>
+                Create Record
+            </button>
+        </div>
+        <div class="mt-4 flex flex-wrap gap-4 text-sm text-gray-600 hidden">
+            <label class="flex items-center">
+                <input type="checkbox" class="form-checkbox mr-2 rounded-md text-purple-600" /> Active Patients
+            </label>
+            <label class="flex items-center">
+                <input type="checkbox" class="form-checkbox mr-2 rounded-md text-purple-600" /> New Patients
+            </label>
+            <select class="p-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500">
+                <option>Filter by Condition</option>
+                <option>Diabetes</option>
+                <option>Hypertension</option>
+                <option>Asthma</option>
+            </select>
+        </div>
+    </div>
+
+    <h2 class="text-xl font-bold text-gray-800 mb-4">Recent Patient Activity</h2>
+    <div id="search-results" class="bg-white p-6 rounded-2xl shadow-md">
+    </div>
+
+    <div id="pagination-controls" class="flex justify-center mt-4">
+    </div>
+
+
+</div>
+
+<div id="new-patient-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden flex items-center justify-center">
+    <div class="relative p-8 bg-white w-11/12 max-w-2xl mx-auto rounded-xl shadow-lg">
+        <h3 class="text-2xl font-bold text-gray-800 mb-6">Create Patient Record</h3>
+
+        <form id="CreateRecordForm">
+            <div class="mb-4">
+                <label for="first-name" class="block text-gray-700 text-sm font-semibold mb-2">First Name</label>
+                <input type="text" id="first-name" class="shadow-sm appearance-none border rounded-xl w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="e.g., Jane" required />
+            </div>
+            <div class="mb-4">
+                <label for="last-name" class="block text-gray-700 text-sm font-semibold mb-2">Last Name</label>
+                <input type="text" id="last-name" class="shadow-sm appearance-none border rounded-xl w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="e.g., Doe" required />
+            </div>
+            <div class="mb-4">
+                <label for="birthday" class="block text-gray-700 text-sm font-semibold mb-2">Birthday</label>
+                <input type="date" id="birthday" class="shadow-sm appearance-none border rounded-xl w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-purple-500" required />
+            </div>
+            <div class="mb-4">
+                <label for="sex" class="block text-gray-700 text-sm font-semibold mb-2">Sex</label>
+                <div class="relative">
+                    <select id="sex" class="shadow-sm appearance-none border rounded-xl w-full py-2 px-3 pr-10 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-purple-500" required>
+                        <option value="">Select Options</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 6.757 7.586 5.343 9z" /></svg>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-6">
+                <label for="phone" class="block text-gray-700 text-sm font-semibold mb-2">Phone</label>
+                <input type="tel" id="phone" class="shadow-sm appearance-none border rounded-xl w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="e.g., +63 917 123 4567" required />
+            </div>
+            <div class="mb-6">
+                <label for="email" class="block text-gray-700 text-sm font-semibold mb-2">Email</label>
+                <input type="email" id="email" class="shadow-sm appearance-none border rounded-xl w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="e.g., jane.doe@example.com" required />
+            </div>
+            <div class="mb-4">
+                <label for="address" class="block text-gray-700 text-sm font-semibold mb-2">Address</label>
+                <input type="text" id="address" class="shadow-sm appearance-none border rounded-xl w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="e.g., 123 Main St, Anytown" required />
+            </div>
+            <div class="mb-4">
+                <label for="tin" class="block text-gray-700 text-sm font-semibold mb-2">TIN#</label>
+                <input type="text" id="tin" class="shadow-sm appearance-none border rounded-xl w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="e.g., XXX-XXX-XXX-XXX" required />
+            </div>
+            <div class="mb-6">
+                <label for="occupation" class="block text-gray-700 text-sm font-semibold mb-2">Occupation</label>
+                <input type="text" id="occupation" class="shadow-sm appearance-none border rounded-xl w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="e.g., Engineer" required />
+            </div>
+            <div class="flex justify-end gap-3">
+                <button type="button" id="close-modal-btn" class="bg-gray-300 text-gray-800 py-2 px-4 rounded-xl font-semibold hover:bg-gray-400 transition duration-200 ease-in-out">
+                    Cancel
+                </button>
+                <button type="submit" class="bg-purple-600 text-white py-2 px-4 rounded-xl font-semibold hover:bg-purple-700 transition duration-200 ease-in-out">
+                    Save Patient
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    const createRecordBtn = document.getElementById('create-record-btn');
+    const newPatientModal = document.getElementById('new-patient-modal');
+    const closeModalBtn = document.getElementById('close-modal-btn');
+    const createRecordForm = document.getElementById('CreateRecordForm');
+    const searchInput = document.getElementById('search-input'); // Get the search input element
+
+    let currentPage = 1;
+    const recordsPerPage = 5;
+    let currentSearchQuery = ""; // Store the current search query
+
+    // Show the modal
+    createRecordBtn.addEventListener('click', () => {
+        newPatientModal.classList.remove('hidden');
+    });
+
+    // Hide the modal when the close button is clicked
+    closeModalBtn.addEventListener('click', () => {
+        newPatientModal.classList.add('hidden');
+        document.getElementById('CreateRecordForm').reset();
+    });
+
+    // Optional: Hide the modal if clicked outside of the modal content
+    newPatientModal.addEventListener('click', (event) => {
+        if (event.target === newPatientModal) {
+            newPatientModal.classList.add('hidden');
+            document.getElementById('CreateRecordForm').reset();
+        }
+    });
+
+    createRecordForm.addEventListener('submit', uploadRecord);
+
+    function uploadRecord(event) {
+        event.preventDefault();
+
+        Swal.fire({
+            title: 'Uploading...',
+            text: 'Please wait while the record is being saved.',
+            showConfirmButton: false,
+            allowOutsideClick: false,
+            willOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
+        const formData = new FormData();
+        formData.append("firstName", document.getElementById("first-name").value.toLowerCase());
+        formData.append("lastName", document.getElementById("last-name").value.toLowerCase());
+        formData.append("dateOfBirth", document.getElementById("birthday").value);
+        formData.append("sex", document.getElementById("sex").value);
+        formData.append("address", document.getElementById("address").value);
+        formData.append("tinNumber", document.getElementById("tin").value);
+        formData.append("occupation", document.getElementById("occupation").value);
+        formData.append("email", document.getElementById("email").value);
+        formData.append("phoneNumber", document.getElementById("phone").value);
+
+
+        $.ajax({
+            url: "/api/PatientRecord/UploadRecord",
+            type: "POST",
+            data: formData, // Pass the FormData object
+            contentType: false, // Crucial: Do NOT set content type, browser will set multipart/form-data
+            processData: false, // Crucial: Do NOT process data
+            success: function (response) {
+                Swal.close();
+                console.log(response.message);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Uploaded!',
+                    text: response.message || 'Patient record saved successfully!',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+
+                document.getElementById('new-patient-modal').classList.add('hidden');
+                document.getElementById('CreateRecordForm').reset();
+                // After successful upload, refresh the current view (either all records or search results)
+                if (currentSearchQuery) {
+                    findRecord();
+                } else {
+                    fetchAllRecords();
+                }
+            },
+            error: function (xhr) {
+                Swal.close();
+                let errorMessage = "An error occurred.";
+                try {
+                    const responseJson = JSON.parse(xhr.responseText);
+                    errorMessage = responseJson.message || JSON.stringify(responseJson);
+                } catch (e) {
+                    errorMessage = xhr.responseText || errorMessage;
+                }
+                console.error("AJAX Error:", xhr);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Upload Failed!',
+                    text: "Error: " + errorMessage + " (Status: " + xhr.status + ")",
+                });
+            }
+        });
+    }
+
+    // New function to handle initial search or pagination
+    function performSearch() {
+        currentPage = 1; // Always reset to page 1 for a new search
+        currentSearchQuery = searchInput.value.trim().toLowerCase(); // Update the current search query
+        findRecord();
+
+    }
+
+    function findRecord() {
+        Swal.fire({
+            title: "Searching record...",
+            text: "Please wait while searching the record.",
+            showConfirmButton: false,
+            allowOutsideClick: false,
+            willOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
+        if (currentSearchQuery.length === 0) {
+            Swal.close();
+            fetchAllRecords();
+            return;
+        }
+
+        $.ajax({
+            url: "/api/PatientRecord/FindRecord",
+            type: "GET",
+            data: { searchQuery: currentSearchQuery, page: currentPage, limit: recordsPerPage }, // Use currentSearchQuery
+            success: function (response) {
+                Swal.close(); // Close the loading alert
+                searchInput.value = "";
+                if (!response.patients || response.patients.length === 0) {
+                    Swal.fire({
+                        icon: "info",
+                        title: "No Records Found",
+                        text: "No patients match your search query."
+                    });
+                    fetchAllRecords();
+                    return;
+                }
+
+                populatePatientResults(response.patients, response.totalRecords); // Update UI
+            },
+            error: function (xhr) {
+                Swal.close();
+                console.error("Error:", xhr.responseText);
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Failed to retrieve records!"
+                });
+            }
+        });
+    }
+
+
+    function populatePatientResults(patients, totalRecords) {
+        let resultsContainer = document.getElementById("search-results");
+        resultsContainer.innerHTML = ""; // Clear previous results
+
+        if (patients.length === 0) {
+            resultsContainer.innerHTML = "<p class='text-center text-gray-500'>No records found.</p>";
+            setupPaginationControls(0); // Hide pagination if no results
+            return;
+        }
+
+        patients.forEach(patient => {
+            let initials = getInitials(patient.firstName, patient.lastName);
+            let lastVisitFormatted = formatRelativeTime(patient.lastAccessed);
+
+            let patientCard = `
+                <div class="flex items-center mb-4 pb-4 border-b border-gray-200 last:mb-0 last:pb-0 last:border-b-0">
+                    <div class="w-10 h-10 rounded-full mr-4 flex items-center justify-center bg-gray-400 text-white text-base font-semibold">
+                        ${initials}
+                    </div>
+                    <div class="flex-grow">
+                        <p class="font-semibold text-gray-800">${patient.firstName} ${patient.lastName}</p>
+                        <p class="text-gray-600">Last visited: ${lastVisitFormatted} Accessed for: ${patient.reasonforAccess}</p>
+                    </div>
+                    <span class="text-blue-600 font-semibold mr-4 cursor-pointer" onclick="viewRecord(${patient.id})">View Record</span>
+                </div>
+            `;
+
+            resultsContainer.innerHTML += patientCard;
+        });
+
+        setupPaginationControls(totalRecords);
+    }
+
+    function setupPaginationControls(totalRecords) {
+        let totalPages = Math.ceil(totalRecords / recordsPerPage);
+
+        let paginationContainer = document.getElementById("pagination-controls");
+        paginationContainer.innerHTML = ""; // Clear previous buttons
+
+        // If there's only one page (or no records), hide the entire pagination control.
+        if (totalPages <= 1) {
+            paginationContainer.style.display = "none";
+            return;
+        } else {
+            paginationContainer.style.display = "flex"; // Ensure it's visible otherwise
+        }
+
+        if (currentPage > 1) {
+            paginationContainer.innerHTML += `<button onclick="changePage(-1)" class="px-4 py-2 bg-gray-300 rounded-xl mr-2">Previous</button>`;
+        }
+
+        paginationContainer.innerHTML += `<span class="px-4 py-2">Page ${currentPage} of ${totalPages}</span>`;
+
+        if (currentPage < totalPages) {
+            paginationContainer.innerHTML += `<button onclick="changePage(1)" class="px-4 py-2 bg-gray-300 rounded-xl ml-2">Next</button>`;
+        }
+    }
+
+
+    function changePage(direction) {
+        currentPage += direction;
+        if (currentSearchQuery) {
+            findRecord(); // If there's an active search, re-run the search with the new page
+        } else {
+            fetchAllRecords(); // Otherwise, fetch all records with the new page
+        }
+    }
+
+
+    function formatRelativeTime(lastVisit) {
+        if (!lastVisit) return "New"; // If no date, assume "New" patient
+
+        let visitDate = new Date(lastVisit); // Convert the date string to a Date object
+        let now = new Date(); // Get the current date/time
+        let diffInSeconds = Math.floor((now - visitDate) / 1000);
+
+        // Define time thresholds
+        const timeFrames = [
+            { limit: 60, text: "Just now" }, // Less than a minute
+            { limit: 3600, text: `${Math.floor(diffInSeconds / 60)} min ago` }, // Less than an hour
+            { limit: 86400, text: "Today" }, // Less than a day
+            { limit: 172800, text: "Yesterday" }, // Less than two days
+            { limit: 604800, text: `${Math.floor(diffInSeconds / 86400)} days ago` }, // Less than a week
+            { limit: 2592000, text: "A week ago" }, // Less than a month
+            { limit: 31536000, text: "A month ago" }, // Less than a year
+            { limit: Infinity, text: "Over a year ago" } // Beyond a year
+        ];
+
+        // Find the correct timeframe
+        const foundFrame = timeFrames.find(frame => diffInSeconds < frame.limit);
+        return foundFrame ? foundFrame.text : "Date unavailable"; // Fallback in case no frame is found (shouldn't happen with Infinity)
+    }
+
+
+
+    function getInitials(firstName, lastName) {
+        return (firstName.charAt(0) + lastName.charAt(0)).toUpperCase();
+    }
+
+
+    function fetchAllRecords() {
+        Swal.fire({
+            title: "Retrieving all records...",
+            text: "Please wait while we retrieve the records.",
+            showConfirmButton: false,
+            allowOutsideClick: false,
+            willOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
+        currentSearchQuery = ""; // Clear the search query when fetching all records
+        searchInput.value = ""; // Clear the search input field
+
+        $.ajax({
+            url: "/api/PatientRecord/ShowAllRecord",
+            type: "GET",
+            data: { page: currentPage, limit: recordsPerPage },
+            success: function (response) {
+                Swal.close();
+                populatePatientResults(response.patients, response.totalRecords);
+            },
+            error: function (xhr) {
+                Swal.close();
+                console.error("Error:", xhr.responseText);
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Failed to retrieve records!"
+                });
+            }
+        });
+    }
+
+    // Trigger API call on page load
+    window.onload = fetchAllRecords;
+
+</script>

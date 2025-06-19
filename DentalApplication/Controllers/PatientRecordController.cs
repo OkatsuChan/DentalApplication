@@ -16,10 +16,7 @@ namespace DentalApplication.Controllers
         {
             _context = context;
         }
-        public IActionResult Index()
-        {
-            return View();
-        }
+        
 
         [HttpPost("UploadRecord")]
         public IActionResult CreatePatientRecord([FromForm] PatientRecordModel patient)

@@ -1,0 +1,401 @@
+﻿@{
+    ViewData["Title"] = "Patient Medical Record";
+}
+<!-- Main Content -->
+<div class="flex flex-col h-full">
+    <!-- Top Bar -->
+    <header class="flex items-center justify-end mb-8">
+        <div class="flex items-center space-x-4">
+            <div class="w-10 h-10 rounded-full bg-blue-400 flex items-center justify-center">
+                <!-- Font Awesome Doctor Icon -->
+                <i class="fas fa-user-md text-xl text-white"></i>
+            </div>
+            <div>
+                <p class="font-semibold text-gray-800">Dr. Marites Gaspar</p>
+                <p class="text-sm text-gray-500">basagaspardental@gmail.com</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Patient Record Details and Treatments Section - Now at the top -->
+    <h2 class="text-3xl font-bold text-gray-800 mb-2">Patient Medical Record</h2>
+    <p class="text-gray-500 mb-8">Comprehensive overview of patient details and treatment history.</p>
+
+    <!-- Patient Information Section -->
+    <div class="bg-white p-6 rounded-2xl shadow-md mb-8">
+        <h3 class="text-xl font-semibold text-gray-700 mb-4 border-b pb-2">Patient Information</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-700">
+            <div class="space-y-3">
+                <p><span class="font-semibold">Full Name:</span> Jane Doe</p>
+                <p><span class="font-semibold">Birthday:</span> 1990-05-15</p>
+                <p><span class="font-semibold">Sex:</span> Female</p>
+                <p><span class="font-semibold">Address:</span> 123 Maple St, Townsville</p>
+            </div>
+            <div class="space-y-3">
+                <p><span class="font-semibold">TIN#:</span> XXX-XXX-XXX-123</p>
+                <p><span class="font-semibold">Occupation:</span> Graphic Designer</p>
+                <p><span class="font-semibold">Contact:</span> +1 555 123 4567</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Treatments History Section (Improved Medical Design with new fields) -->
+    <div class="bg-white p-6 rounded-2xl shadow-md">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-semibold text-gray-700">Treatments History</h3>
+            <!-- Add New Treatment Button -->
+            <button id="add-treatment-btn" class="bg-purple-600 text-white py-2 px-4 rounded-xl font-semibold hover:bg-purple-700 transition duration-200 ease-in-out shadow-md">
+                <i class="fas fa-plus-circle inline-block mr-2"></i>
+                Add Daily Treatment Record
+            </button>
+        </div>
+        <ul id="treatments-history-list" class="space-y-4">
+            <!-- Example Daily Treatment Record with one treatment -->
+            <li class="p-4 border border-gray-200 rounded-xl bg-gradient-to-r from-gray-50 to-white hover:from-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 ease-in-out">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="flex-grow cursor-pointer toggle-details">
+                        <p class="font-semibold text-gray-800 text-lg">Date: 2024-06-10</p>
+                        <p class="text-gray-700 text-sm"><span class="font-semibold">Total Due:</span> $120.00 | <span class="font-semibold">Total Paid:</span> $120.00 | <span class="font-semibold">Balance:</span> $0.00</p>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button class="delete-daily-record-btn text-red-500 w-8 h-8 flex-shrink-0 flex items-center justify-center rounded-full hover:bg-red-700 hover:text-white focus:outline-none">
+                            <i class="fas fa-trash text-lg"></i>
+                        </button>
+                        <i class="fas fa-chevron-down text-gray-500 transition-transform transform cursor-pointer toggle-details-icon"></i>
+                    </div>
+                </div>
+                <div class="collapsible-content">
+                    <div class="border-t border-gray-200 pt-4 mt-4 space-y-3">
+                        <p class="font-semibold text-gray-800 mb-2">Treatments for this date:</p>
+                        <div class="bg-gray-100 p-3 rounded-lg shadow-sm mb-2">
+                            <p class="font-semibold text-gray-700">Procedure/Treatment: Dental Cleaning & Exam</p>
+                            <p class="text-gray-600 text-sm"><span class="font-semibold">Amount Due:</span> $120.00</p>
+                            <p class="text-gray-600 text-sm"><span class="font-semibold">Notes:</span> Routine check-up, fluoride application.</p>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <!-- Example Daily Treatment Record with two treatments -->
+            <li class="p-4 border border-gray-200 rounded-xl bg-gradient-to-r from-gray-50 to-white hover:from-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 ease-in-out">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="flex-grow cursor-pointer toggle-details">
+                        <p class="font-semibold text-gray-800 text-lg">Date: 2023-11-22</p>
+                        <p class="text-gray-700 text-sm"><span class="font-semibold">Total Due:</span> $350.00 | <span class="font-semibold">Total Paid:</span> $250.00 | <span class="font-semibold">Balance:</span> $100.00</p>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button class="delete-daily-record-btn text-red-500 w-8 h-8 flex-shrink-0 flex items-center justify-center rounded-full hover:bg-red-700 hover:text-white focus:outline-none">
+                            <i class="fas fa-trash text-lg"></i>
+                        </button>
+                        <i class="fas fa-chevron-down text-gray-500 transition-transform transform cursor-pointer toggle-details-icon"></i>
+                    </div>
+                </div>
+                <div class="collapsible-content">
+                    <div class="border-t border-gray-200 pt-4 mt-4 space-y-3">
+                        <p class="font-semibold text-gray-800 mb-2">Treatments for this date:</p>
+                        <div class="bg-gray-100 p-3 rounded-lg shadow-sm mb-2">
+                            <p class="font-semibold text-gray-700">Procedure/Treatment: Tooth Extraction (Upper Left Molar)</p>
+                            <p class="text-gray-600 text-sm"><span class="font-semibold">Amount Due:</span> $250.00</p>
+                            <p class="text-gray-600 text-sm"><span class="font-semibold">Notes:</span> Due to severe decay. Patient tolerated procedure well.</p>
+                        </div>
+                        <div class="bg-gray-100 p-3 rounded-lg shadow-sm">
+                            <p class="font-semibold text-gray-700">Procedure/Treatment: X-ray and Consultation</p>
+                            <p class="text-gray-600 text-sm"><span class="font-semibold">Amount Due:</span> $100.00</p>
+                            <p class="text-gray-600 text-sm"><span class="font-semibold">Notes:</span> Pre-extraction X-ray and detailed consultation.</p>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="p-4 border border-gray-200 rounded-xl bg-gradient-to-r from-gray-50 to-white hover:from-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 ease-in-out">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="flex-grow cursor-pointer toggle-details">
+                        <p class="font-semibold text-gray-800 text-lg">Date: 2023-08-05</p>
+                        <p class="text-gray-700 text-sm"><span class="font-semibold">Total Due:</span> $180.00 | <span class="font-semibold">Total Paid:</span> $180.00 | <span class="font-semibold">Balance:</span> $0.00</p>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button class="delete-daily-record-btn text-red-500 w-8 h-8 flex-shrink-0 flex items-center justify-center rounded-full hover:bg-red-700 hover:text-white focus:outline-none">
+                            <i class="fas fa-trash text-lg"></i>
+                        </button>
+                        <i class="fas fa-chevron-down text-gray-500 transition-transform transform cursor-pointer toggle-details-icon"></i>
+                    </div>
+                </div>
+                <div class="collapsible-content">
+                    <div class="border-t border-gray-200 pt-4 mt-4 space-y-3">
+                        <p class="font-semibold text-gray-800 mb-2">Treatments for this date:</p>
+                        <div class="bg-gray-100 p-3 rounded-lg shadow-sm">
+                            <p class="font-semibold text-gray-700">Procedure/Treatment: Filling (Lower Right Premolar)</p>
+                            <p class="text-gray-600 text-sm"><span class="font-semibold">Amount Due:</span> $180.00</p>
+                            <p class="text-gray-600 text-sm"><span class="font-semibold">Notes:</span> Composite filling for a small cavity. Post-op instructions given.</p>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="p-4 border border-gray-200 rounded-xl bg-gradient-to-r from-gray-50 to-white hover:from-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 ease-in-out">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="flex-grow cursor-pointer toggle-details">
+                        <p class="font-semibold text-gray-800 text-lg">Date: 2023-03-18</p>
+                        <p class="text-gray-700 text-sm"><span class="font-semibold">Total Due:</span> $600.00 | <span class="font-semibold">Total Paid:</span> $600.00 | <span class="font-semibold">Balance:</span> $0.00</p>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button class="delete-daily-record-btn text-red-500 w-8 h-8 flex-shrink-0 flex items-center justify-center rounded-full hover:bg-red-700 hover:text-white focus:outline-none">
+                            <i class="fas fa-trash text-lg"></i>
+                        </button>
+                        <i class="fas fa-chevron-down text-gray-500 transition-transform transform cursor-pointer toggle-details-icon"></i>
+                    </div>
+                </div>
+                <div class="collapsible-content">
+                    <div class="border-t border-gray-200 pt-4 mt-4 space-y-3">
+                        <p class="font-semibold text-gray-800 mb-2">Treatments for this date:</p>
+                        <div class="bg-gray-100 p-3 rounded-lg shadow-sm">
+                            <p class="font-semibold text-gray-700">Procedure/Treatment: Root Canal Therapy (Upper Right Incisor)</p>
+                            <p class="text-gray-600 text-sm"><span class="font-semibold">Amount Due:</span> $600.00</p>
+                            <p class="text-gray-600 text-sm"><span class="font-semibold">Notes:</span> Patient presented with severe pain. Root canal completed successfully.</p>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+    </div>
+
+<!-- Add Daily Treatment Record Modal -->
+<div id="add-treatment-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden flex items-center justify-center">
+    <div class="relative p-8 bg-white w-11/12 max-w-4xl mx-auto rounded-xl shadow-lg flex flex-col max-h-[90vh] overflow-y-auto">
+        <h3 class="text-2xl font-bold text-gray-800 mb-6 flex-shrink-0">Add Daily Treatment Record</h3>
+        <form id="add-treatment-form" class="flex flex-col flex-grow">
+            <div class="mb-4">
+                <label for="record-date" class="block text-gray-700 text-sm font-semibold mb-2">Date of Record</label>
+                <input type="date" id="record-date" class="shadow-sm appearance-none border rounded-xl w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-purple-500" required />
+            </div>
+
+            <div id="treatment-entries-container" class="space-y-6 mb-6 border-t border-gray-200 pt-6 pr-2">
+                <!-- Initial Treatment Entry -->
+                <div class="treatment-entry p-4 bg-gray-50 rounded-lg shadow-sm relative">
+                    <h4 class="text-lg font-semibold text-gray-700 mb-3">Treatment #1</h4>
+                    <button type="button" class="remove-treatment-entry absolute top-2 right-2 text-red-500 hover:text-red-700 hidden">
+                        <i class="fas fa-times-circle"></i>
+                    </button>
+                    <div class="mb-3">
+                        <label for="procedure-treatment-1" class="block text-gray-700 text-sm font-semibold mb-2">Procedure/Treatment</label>
+                        <input type="text" id="procedure-treatment-1" name="procedureTreatment" class="shadow-sm appearance-none border rounded-xl w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="e.g., Dental Cleaning" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="amount-due-1" class="block text-gray-700 text-sm font-semibold mb-2">Amount Due</label>
+                        <input type="number" id="amount-due-1" name="amountDue" class="amount-input shadow-sm appearance-none border rounded-xl w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="e.g., 120.00" step="0.01" required />
+                    </div>
+                    <div>
+                        <label for="treatment-notes-1" class="block text-gray-700 text-sm font-semibold mb-2">Notes</label>
+                        <textarea id="treatment-notes-1" name="treatmentNotes" rows="2" class="shadow-sm appearance-none border rounded-xl w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Any additional notes..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" id="add-another-treatment-btn" class="bg-blue-500 text-white py-2 px-4 rounded-xl font-semibold hover:bg-blue-600 transition duration-200 ease-in-out shadow-md mb-6">
+                <i class="fas fa-plus mr-2"></i> Add Another Treatment
+            </button>
+
+            <div class="grid grid-cols-2 gap-4 mb-6 pt-4 border-t border-gray-200">
+                <div>
+                    <label class="block text-gray-700 text-sm font-semibold mb-2">Total Amount Due</label>
+                    <input type="text" id="total-amount-due" class="bg-gray-100 shadow-sm appearance-none border rounded-xl w-full py-2 px-3 text-gray-700 leading-tight" readonly />
+                </div>
+                <div>
+                    <label for="total-amount-paid-input" class="block text-gray-700 text-sm font-semibold mb-2">Total Amount Paid</label>
+                    <input type="number" id="total-amount-paid-input" class="amount-input-total shadow-sm appearance-none border rounded-xl w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="e.g., 250.00" step="0.01" />
+                </div>
+                <div>
+                    <label class="block text-gray-700 text-sm font-semibold mb-2">Balance</label>
+                    <input type="text" id="total-balance" class="bg-gray-100 shadow-sm appearance-none border rounded-xl w-full py-2 px-3 text-gray-700 leading-tight" readonly />
+                </div>
+                <div>
+                    <label class="block text-gray-700 text-sm font-semibold mb-2">Change</label>
+                    <input type="text" id="total-change" class="bg-gray-100 shadow-sm appearance-none border rounded-xl w-full py-2 px-3 text-gray-700 leading-tight" readonly />
+                </div>
+            </div>
+
+            <div class="flex justify-end gap-3">
+                <button type="button" id="close-add-treatment-modal-btn" class="bg-gray-300 text-gray-800 py-2 px-4 rounded-xl font-semibold hover:bg-gray-400 transition duration-200 ease-in-out">
+                    Cancel
+                </button>
+                <button type="submit" class="bg-purple-600 text-white py-2 px-4 rounded-xl font-semibold hover:bg-purple-700 transition duration-200 ease-in-out">
+                    Save Daily Record
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    // --- General Modal Handlers (for both modals) ---
+    function setupModalHandlers(openBtnId, modalId, closeBtnId) {
+        const openBtn = document.getElementById(openBtnId);
+        const modal = document.getElementById(modalId);
+        const closeBtn = document.getElementById(closeBtnId);
+
+        if (openBtn) {
+            openBtn.addEventListener('click', () => {
+                modal.classList.remove('hidden');
+                // Reset modal content when opened
+                document.getElementById('add-treatment-form').reset();
+                document.getElementById('treatment-entries-container').innerHTML = '';
+                treatmentEntryCount = 0;
+                addAnotherTreatmentBtn.click(); // Add initial empty entry
+                updateTotals();
+            });
+        }
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                modal.classList.add('hidden');
+            });
+        }
+        if (modal) {
+            modal.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    modal.classList.add('hidden');
+                }
+            });
+        }
+    }
+
+    // --- Add Daily Treatment Record Modal Specifics ---
+    setupModalHandlers('add-treatment-btn', 'add-treatment-modal', 'close-add-treatment-modal-btn');
+
+    const treatmentEntriesContainer = document.getElementById('treatment-entries-container');
+    const addAnotherTreatmentBtn = document.getElementById('add-another-treatment-btn');
+    const addTreatmentForm = document.getElementById('add-treatment-form');
+    let treatmentEntryCount = 0; // Start at 0, first click on add new will make it 1
+
+    // Function to create a new treatment entry HTML
+    function createTreatmentEntry(count) {
+        const newEntry = document.createElement('div');
+        newEntry.className = 'treatment-entry p-4 bg-gray-50 rounded-lg shadow-sm relative';
+        newEntry.innerHTML = `
+            <h4 class="text-lg font-semibold text-gray-700 mb-3">Treatment #${count}</h4>
+            <button type="button" class="remove-treatment-entry absolute top-2 right-2 text-red-500 hover:text-red-700 ${count === 1 ? 'hidden' : ''}">
+                <i class="fas fa-times-circle"></i>
+            </button>
+            <div class="mb-3">
+                <label for="procedure-treatment-${count}" class="block text-gray-700 text-sm font-semibold mb-2">Procedure/Treatment</label>
+                <input type="text" id="procedure-treatment-${count}" name="procedureTreatment" class="shadow-sm appearance-none border rounded-xl w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="e.g., Dental Cleaning" required />
+            </div>
+            <div class="mb-3">
+                <label for="amount-due-${count}" class="block text-gray-700 text-sm font-semibold mb-2">Amount Due</label>
+                <input type="number" id="amount-due-${count}" name="amountDue" class="amount-input shadow-sm appearance-none border rounded-xl w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="e.g., 120.00" step="0.01" required />
+            </div>
+            <div>
+                <label for="treatment-notes-${count}" class="block text-gray-700 text-sm font-semibold mb-2">Notes</label>
+                <textarea id="treatment-notes-${count}" name="treatmentNotes" rows="2" class="shadow-sm appearance-none border rounded-xl w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Any additional notes..."></textarea>
+            </div>
+        `;
+        return newEntry;
+    }
+
+    // Add New Treatment Entry
+    addAnotherTreatmentBtn.addEventListener('click', () => {
+        treatmentEntryCount++;
+        const newEntry = createTreatmentEntry(treatmentEntryCount);
+        treatmentEntriesContainer.appendChild(newEntry);
+        // Show remove button for all entries once there's more than one
+        const removeButtons = document.querySelectorAll('.remove-treatment-entry');
+        if (removeButtons.length > 1) {
+            removeButtons.forEach(btn => btn.classList.remove('hidden'));
+        }
+        attachAmountInputListeners(); // Re-attach listeners for new inputs
+    });
+
+    // Handle removing a treatment entry
+    treatmentEntriesContainer.addEventListener('click', (event) => {
+        if (event.target.closest('.remove-treatment-entry')) {
+            const entryToRemove = event.target.closest('.treatment-entry');
+            entryToRemove.remove();
+            // Re-calculate totals after removal
+            const currentEntries = document.querySelectorAll('.treatment-entry');
+            if (currentEntries.length > 0) {
+                updateTotals();
+            } else {
+                // If no entries left, add initial empty entry and reset count
+                treatmentEntryCount = 0; // This will become 1 in addAnotherTreatmentBtn.click()
+                addAnotherTreatmentBtn.click();
+            }
+            // Hide remove button if only one entry remains
+            if (currentEntries.length === 1) {
+                currentEntries[0].querySelector('.remove-treatment-entry').classList.add('hidden');
+            }
+            // Re-index titles (optional, for aesthetics)
+            currentEntries.forEach((entry, index) => {
+                entry.querySelector('h4').textContent = `Treatment #${index + 1}`;
+            });
+        }
+    });
+
+    // Calculate Totals
+    function updateTotals() {
+        let totalDue = 0;
+        document.querySelectorAll('.amount-input').forEach(input => { // Using amount-input for individual amounts due
+            totalDue += parseFloat(input.value) || 0;
+        });
+
+        const totalPaid = parseFloat(document.getElementById('total-amount-paid-input').value) || 0;
+
+        document.getElementById('total-amount-due').value = `$${totalDue.toFixed(2)}`;
+
+        // Calculate balance (cannot be negative)
+        const balance = Math.max(0, totalDue - totalPaid);
+        document.getElementById('total-balance').value = `$${balance.toFixed(2)}`;
+
+        // Calculate change (only if paid > due)
+        const change = Math.max(0, totalPaid - totalDue);
+        document.getElementById('total-change').value = `$${change.toFixed(2)}`;
+    }
+
+    function attachAmountInputListeners() {
+        // Listeners for individual "Amount Due" inputs
+        document.querySelectorAll('.amount-input').forEach(input => {
+            input.removeEventListener('input', updateTotals); // Avoid duplicate listeners
+            input.addEventListener('input', updateTotals);
+        });
+        // Ensure the total paid input also triggers total updates
+        document.getElementById('total-amount-paid-input').removeEventListener('input', updateTotals);
+        document.getElementById('total-amount-paid-input').addEventListener('input', updateTotals);
+    }
+
+
+
+
+    // --- Collapsible Treatment History Details ---
+    document.querySelectorAll('.toggle-details').forEach(header => {
+        header.addEventListener('click', (event) => {
+            // Ensure the click did not originate from the trash button
+            if (!event.target.closest('.delete-daily-record-btn')) {
+                const content = header.nextElementSibling; // The .collapsible-content div
+                // No icon rotation here
+                content.classList.toggle('open');
+            }
+        });
+    });
+
+    // Specific listener for the chevron icon to handle its rotation and content toggle
+    document.querySelectorAll('.toggle-details-icon').forEach(icon => {
+        icon.addEventListener('click', (event) => {
+            event.stopPropagation(); // Prevent this click from triggering the parent's toggle-details
+            const content = icon.closest('li').querySelector('.collapsible-content');
+            icon.classList.toggle('rotate-180');
+            content.classList.toggle('open');
+        });
+    });
+
+    // Add event listener for delete buttons to stop propagation
+    document.querySelectorAll('.delete-daily-record-btn').forEach(button => {
+        button.addEventListener('click', (event) => {
+            event.stopPropagation(); // Prevent this click from triggering the parent's toggle-details
+            // Add your delete logic here (e.g., confirm deletion, remove element from DOM, update data)
+            console.log('Delete button clicked for:', event.target.closest('li'));
+            // For demonstration, you could remove the parent <li> element:
+            // event.target.closest('li').remove();
+        });
+    });
+
+
+</script>
+
