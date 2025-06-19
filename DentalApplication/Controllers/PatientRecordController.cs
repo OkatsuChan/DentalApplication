@@ -41,26 +41,44 @@ namespace DentalApplication.Controllers
             return Ok(new { message = "Patient record saved successfully!" });
         }
 
+
         [HttpGet("FindRecord")]
-        public IActionResult FindRecord(string searchQuery)
+        public IActionResult FindRecord(string searchQuery, int page = 1, int limit = 5)
         {
             if (string.IsNullOrWhiteSpace(searchQuery))
             {
                 return BadRequest("Search query cannot be empty.");
             }
 
-            var searchTerms = searchQuery.Split(' '); // Splits "John Doe" into ["John", "Doe"]
+            int skip = (page - 1) * limit;
 
-            var patients = _context.tblPatientRecord.Where(p =>
-                searchTerms.Any(term => p.FirstName.Contains(term) || p.LastName.Contains(term))
-            ).ToList();
+            // Get filtered results first (before pagination)
+            var filteredPatients = _context.tblPatientRecord
+                .Where(p => p.FirstName.Contains(searchQuery) || p.LastName.Contains(searchQuery));
 
-            if (!patients.Any())
-            {
-                return NotFound();
-            }
+            int totalFilteredRecords = filteredPatients.Count(); // Get the correct count of matching records
 
-            return Ok(patients);
+            var patients = filteredPatients
+                .OrderBy(p => p.LastAccessed) // Sort by last visit date (Optional)
+                .Skip(skip) // Skip previous pages
+                .Take(limit) // Limit results per page
+                .ToList();
+
+            return Ok(new { patients, totalRecords = totalFilteredRecords });
+        }
+
+        [HttpGet("ShowAllRecord")]
+        public IActionResult DisplayAllRecord( int page = 1, int limit = 5)
+        {
+            int skip = (page - 1) * limit;
+
+            var patients = _context.tblPatientRecord
+                .OrderByDescending(p => p.LastAccessed) 
+                .Skip(skip) // Skip previous pages
+                .Take(limit) // Limit results per page
+                .ToList();
+
+            return Ok(new { patients, totalRecords = _context.tblPatientRecord.Count() });
         }
 
     }
