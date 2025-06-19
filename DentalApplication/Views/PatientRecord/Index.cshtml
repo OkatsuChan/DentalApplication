@@ -27,10 +27,10 @@
     <div class="bg-white p-6 rounded-2xl shadow-md mb-8">
         <h3 class="text-xl font-semibold text-gray-700 mb-4">Find Patient</h3>
         <div class="flex flex-col md:flex-row gap-4">
-            <input type="text"
+            <input type="text" id="search-input"
                    placeholder="Search by Patient Name"
                    class="flex-grow p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500" />
-            <button class="bg-purple-600 text-white py-3 px-6 rounded-xl font-semibold hover:bg-purple-700 transition duration-200 ease-in-out shadow-md">
+            <button class="bg-purple-600 text-white py-3 px-6 rounded-xl font-semibold hover:bg-purple-700 transition duration-200 ease-in-out shadow-md" onclick="findRecord()">
                 <svg class="w-5 h-5 inline-block mr-2" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
                 </svg>
@@ -59,85 +59,11 @@
         </div>
     </div>
 
-    <!-- Recent Patient Searches/Results -->
     <h2 class="text-xl font-bold text-gray-800 mb-4">Recent Patient Activity</h2>
-    <div class="bg-white p-6 rounded-2xl shadow-md">
-        <!-- Patient Activity 1 -->
-        <div class="flex items-center mb-4 pb-4 border-b border-gray-200 last:mb-0 last:pb-0 last:border-b-0">
-            <img src="https://placehold.co/40x40/random/white?text=JD"
-                 alt="Jane Doe Avatar"
-                 class="w-10 h-10 rounded-full mr-4 object-cover" />
-            <div class="flex-grow">
-                <p class="font-semibold text-gray-800">John Brown</p>
-                <p class="text-gray-600">Last visited: 2024-06-10 for Annual Check-up</p>
-            </div>
-            <div class="flex items-center space-x-4">
-                <!--New container for consistent alignment -->
-                <span class="text-blue-600 font-semibold w-32 text-right">View Record</span>
-                <span class="text-gray-500 text-sm w-16 text-right">Today</span>
-            </div>
-        </div>
-
-        <!-- Patient Activity 2 -->
-        <div class="flex items-center mb-4 pb-4 border-b border-gray-200 last:mb-0 last:pb-0 last:border-b-0">
-            <img src="https://placehold.co/40x40/random/white?text=JB"
-                 alt="John Brown Avatar"
-                 class="w-10 h-10 rounded-full mr-4 object-cover" />
-            <div class="flex-grow">
-                <p class="font-semibold text-gray-800">John Brown</p>
-                <p class="text-gray-600">Accessed for: Prescription Refill</p>
-            </div>
-            <div class="flex items-center space-x-4">
-                <span class="text-orange-500 font-semibold w-32 text-right">View Record</span>
-                <span class="text-gray-500 text-sm w-16 text-right">Yesterday</span>
-            </div>
-        </div>
-        <!-- Patient Activity 2 -->
-        <div class="flex items-center mb-4 pb-4 border-b border-gray-200 last:mb-0 last:pb-0 last:border-b-0">
-            <img src="https://placehold.co/40x40/random/white?text=JB"
-                 alt="John Brown Avatar"
-                 class="w-10 h-10 rounded-full mr-4 object-cover" />
-            <div class="flex-grow">
-                <p class="font-semibold text-gray-800">John Brown</p>
-                <p class="text-gray-600">Accessed for: Prescription Refill</p>
-            </div>
-            <div class="flex items-center space-x-4">
-                <span class="text-orange-500 font-semibold w-32 text-right">View Record</span>
-                <span class="text-gray-500 text-sm w-16 text-right">Yesterday</span>
-            </div>
-        </div>
-
-        <!-- Patient Activity 2 -->
-        <div class="flex items-center mb-4 pb-4 border-b border-gray-200 last:mb-0 last:pb-0 last:border-b-0">
-            <img src="https://placehold.co/40x40/random/white?text=JB"
-                 alt="John Brown Avatar"
-                 class="w-10 h-10 rounded-full mr-4 object-cover" />
-            <div class="flex-grow">
-                <p class="font-semibold text-gray-800">John Brown</p>
-                <p class="text-gray-600">Accessed for: Prescription Refill</p>
-            </div>
-            <div class="flex items-center space-x-4">
-                <span class="text-orange-500 font-semibold w-32 text-right">View Record</span>
-                <span class="text-gray-500 text-sm w-16 text-right">Yesterday</span>
-            </div>
-        </div>
-
-
-
-        <!-- Patient Activity 3 -->
-        <div class="flex items-center last:mb-0 last:pb-0 last:border-b-0">
-            <img src="https://placehold.co/40x40/random/white?text=AL"
-                 alt="Alice Lee Avatar"
-                 class="w-10 h-10 rounded-full mr-4 object-cover" />
-            <div class="flex-grow">
-                <p class="font-semibold text-gray-800">John Brown</p>
-                <p class="text-gray-600">New patient registration</p>
-            </div>
-            <span class="text-blue-600 font-semibold mr-4">View Record</span>
-            <span class="text-gray-500 text-sm">2 days ago</span>
-        </div>
-
+    <div id="search-results" class="bg-white p-6 rounded-2xl shadow-md">
+        <!-- Patient Data Will Be Inserted Here -->
     </div>
+
 </div>
 
 <!-- New Patient Record Modal -->
@@ -244,8 +170,8 @@ function uploadRecord(event) {
     });
 
     const formData = new FormData();
-    formData.append("firstName", document.getElementById("first-name").value);
-    formData.append("lastName", document.getElementById("last-name").value);
+    formData.append("firstName", document.getElementById("first-name").value.toLowerCase());
+    formData.append("lastName", document.getElementById("last-name").value.toLowerCase());
     formData.append("dateOfBirth", document.getElementById("birthday").value);
     formData.append("sex", document.getElementById("sex").value);
     formData.append("address", document.getElementById("address").value);
@@ -293,6 +219,107 @@ function uploadRecord(event) {
         }
     });
 }
+
+function findRecord() {
+    Swal.fire({
+        title: "Searching record...",
+        text: "Please wait while searching the record.",
+        showConfirmButton: false,
+        allowOutsideClick: false,
+        willOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
+    let searchQuery = document.getElementById("search-input").value.trim().toLowerCase();
+
+    if (searchQuery.length === 0) return; // Prevent empty search
+
+    $.ajax({
+        url: "/api/PatientRecord/FindRecord",
+        type: "GET",
+        data: { searchQuery: searchQuery },
+        success: function (data) {
+            Swal.close(); // Close the loading alert
+
+            if (!data || data.length === 0) {
+                Swal.fire({
+                    icon: "info",
+                    title: "No Records Found",
+                    text: "No patients match your search query."
+                });
+                return;
+            }
+
+            populatePatientResults(data); // Call function to update UI
+        },
+        error: function (xhr) {
+            console.error("Error:", xhr.responseText);
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Failed to retrieve records!"
+            });
+        }
+    });
+}
+
+function populatePatientResults(patients) {
+    let resultsContainer = document.getElementById("search-results");
+    resultsContainer.innerHTML = ""; // Clear previous results
+
+    patients.forEach(patient => {
+        let initials = getInitials(patient.firstName, patient.lastName);
+        let lastVisitFormatted = formatRelativeTime(patient.lastAccessed);
+
+        let patientCard = `
+            <div class="flex items-center mb-4 pb-4 border-b border-gray-200 last:mb-0 last:pb-0 last:border-b-0">
+                <div class="w-10 h-10 rounded-full mr-4 flex items-center justify-center bg-gray-400 text-white text-base font-semibold">
+                    ${initials}
+                </div>
+                <div class="flex-grow">
+                    <p class="font-semibold text-gray-800">${patient.firstName} ${patient.lastName}</p>
+                            <p class="text-gray-600">Last visited: ${lastVisitFormatted} Accessed for: ${patient.reasonforAccess}</p>
+                </div>
+                <span class="text-blue-600 font-semibold mr-4 cursor-pointer" onclick="viewRecord(${patient.id})">View Record</span>
+            </div>
+        `;
+
+        resultsContainer.innerHTML += patientCard;
+    });
+}
+
+function formatRelativeTime(lastVisit) {
+    if (!lastVisit) return "New"; // If no date, assume "New" patient
+
+    let visitDate = new Date(lastVisit); // Convert the date string to a Date object
+    let now = new Date(); // Get the current date/time
+    let diffInSeconds = Math.floor((now - visitDate) / 1000);
+
+    // Define time thresholds
+    const timeFrames = [
+        { limit: 60, text: "Just now" }, // Less than a minute
+        { limit: 3600, text: `${Math.floor(diffInSeconds / 60)} min ago` }, // Less than an hour
+        { limit: 86400, text: "Today" }, // Less than a day
+        { limit: 172800, text: "Yesterday" }, // Less than two days
+        { limit: 604800, text: `${Math.floor(diffInSeconds / 86400)} days ago` }, // Less than a week
+        { limit: 2592000, text: "A week ago" }, // Less than a month
+        { limit: 31536000, text: "A month ago" }, // Less than a year
+        { limit: Infinity, text: "Over a year ago" } // Beyond a year
+    ];
+
+    // Find the correct timeframe
+    return timeFrames.find(frame => diffInSeconds < frame.limit).text;
+}
+
+
+
+function getInitials(firstName, lastName) {
+    return (firstName.charAt(0) + lastName.charAt(0)).toUpperCase();
+}
+
+
+
 </script>
 
 

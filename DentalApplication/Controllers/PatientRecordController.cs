@@ -40,5 +40,28 @@ namespace DentalApplication.Controllers
 
             return Ok(new { message = "Patient record saved successfully!" });
         }
+
+        [HttpGet("FindRecord")]
+        public IActionResult FindRecord(string searchQuery)
+        {
+            if (string.IsNullOrWhiteSpace(searchQuery))
+            {
+                return BadRequest("Search query cannot be empty.");
+            }
+
+            var searchTerms = searchQuery.Split(' '); // Splits "John Doe" into ["John", "Doe"]
+
+            var patients = _context.tblPatientRecord.Where(p =>
+                searchTerms.Any(term => p.FirstName.Contains(term) || p.LastName.Contains(term))
+            ).ToList();
+
+            if (!patients.Any())
+            {
+                return NotFound();
+            }
+
+            return Ok(patients);
+        }
+
     }
 }
